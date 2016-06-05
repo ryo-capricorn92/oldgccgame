@@ -56,26 +56,26 @@ var all = {
 
 
 //**********OBJECT CONSTRUCTORS**********//
-function Dog(size, head, body, legs, tail, ears, eyes, fur, color, sizeValue, headValue, bodyValue, legsValue, tailValue, earsValue, eyesValue, furValue, colorGenes, otherGenes) {
-	this.size = size;
-	this.head = head;
-	this.body = body;
-	this.legs = legs;
-	this.tail = tail;
-	this.ears = ears;
-	this.eyes = eyes;
-	this.fur = fur;
-	this.color = color;
-	this.sizeValue = sizeValue;
-	this.headValue = headValue;
-	this.bodyValue = bodyValue;
-	this.legsValue = legsValue;
-	this.tailValue = tailValue;
-	this.earsValue = earsValue;
-	this.eyesValue = eyesValue;
-	this.furValue = furValue;
-	this.colorGenes = colorGenes;
-	this.otherGenes = otherGenes;
+function Dog() {
+	this.size = '';
+	this.head = '';
+	this.body = '';
+	this.legs = '';
+	this.tail = '';
+	this.ears = '';
+	this.eyes = '';
+	this.fur = '';
+	this.color = '';
+	this.physical = {
+		size: 0,
+		head: 0,
+		body: 0,
+		legs: 0,
+		tail: 0,
+		ears: 0,
+		eyes: 0,
+		fur: 0
+	}
 	this.cooldown = 0;
 	this.skills = {
 		strength: 0,
@@ -147,6 +147,7 @@ function Dog(size, head, body, legs, tail, ears, eyes, fur, color, sizeValue, he
 			a2: 0
 		}
 	};
+	this.image = '';
 }
 
 
@@ -161,9 +162,9 @@ Date.prototype.addMinutes = function(m) {
 }
 
 //creates a date method that allows hours to be added to a time
-Date.prototype.addHours = function(h) {    
-   this.setTime(this.getTime() + (h*60*60*1000)); 
-   return this;   
+Date.prototype.addHours = function(h) {
+   this.setTime(this.getTime() + (h*60*60*1000));
+   return this;
 }
 
 //creates a date method that allows days to be added to a date
@@ -188,9 +189,6 @@ Dog.prototype.addDog = function() {
 
 //method to give the dog a string value interpretation of it's color genetics
 Dog.prototype.colorGen = function() {
-	//set the dog's image as an empty string to add on to per genetics
-	this.image = "";
-
 	//check each gene to see what genetics are applied
 	//the color genes are as follows:
 	//gene1 is the Sable gene - Always homozygous recessive in starting pair - DD: Wolf Sable - Dr: Sable - rr: shows gene2
@@ -337,7 +335,7 @@ Dog.prototype.colorGen = function() {
 	//add color to the nose (added here to make it easier to add different nose colors later)
 	this.image += '<img class="blackNose" src="imgs/trans.png"/>';
 	//add the dog outline over the colors determined by genetics
-	this.image += '<img class="male" src="imgs/trans.png"/>';	
+	this.image += '<img class="male" src="imgs/trans.png"/>';
 
 	return this;
 }
@@ -372,7 +370,7 @@ Dog.prototype.otherGen = function() {
 		}
 	}
 
-	//check if drop coat and wire coat are both present. If so, coat is curly. If not, check if drop coat or wire coat is present. 
+	//check if drop coat and wire coat are both present. If so, coat is curly. If not, check if drop coat or wire coat is present.
 	//If neither, check if hairless is present
 	if ((!this.otherGenes.g4.a1 && !this.otherGenes.g4.a2) && (!this.otherGenes.g5.a1 && !this.otherGenes.g5.a2)) {
 		this.fur = 'Curly';
@@ -417,6 +415,194 @@ Dog.prototype.genderGen = function() {
 	} else {
 		this.gender = 'Male';
 	}
+
+	return this;
+}
+
+//check the numerical values for the physical aspecs of the dog and assign them the proper string value
+Dog.prototype.physicalGen = function() {
+	switch(this.physical.size) {
+		case 1:
+		  this.size = 'Extra Small';
+			break;
+		case 2:
+		case 3:
+		  this.size = 'Small';
+			break;
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		  this.size = 'Medium';
+			break;
+		case 8:
+		case 9:
+		  this.size = 'Large';
+			break;
+		case 10:
+		  this.size = 'Extra Large';
+			break;
+		default:
+		  this.size = 'ERROR - in physicalGen method';
+			break;
+	};
+
+	switch (this.physical.head) {
+		case 1:
+		case 2:
+		case 3:
+		  this.head = 'Slim';
+			break;
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		  this.head = 'Average';
+			break;
+		case 8:
+		case 9:
+		case 10:
+		  this.head = 'Block';
+			break;
+		default:
+		  this.head = 'ERROR - in physicalGen method';
+			break;
+	};
+
+	switch(this.physical.body) {
+		case 1:
+		case 2:
+		  this.body = 'Petite';
+			break;
+		case 3:
+		case 4:
+		case 5:
+		  this.body = 'Lean';
+			break;
+		case 6:
+		case 7:
+		case 8:
+		  this.body = 'Sturdy';
+			break;
+		case 9:
+		case 10:
+		  this.body = 'Stocky';
+			break;
+		default:
+		  this.body = 'ERROR - in physicalGen method';
+			break;
+	};
+
+	switch(this.physical.legs) {
+		case 1:
+		case 2:
+		  this.legs = 'Stubby';
+			break;
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		  this.legs = 'Average';
+			break;
+		case 8:
+		case 9:
+		case 10:
+		  this.legs = 'Long';
+			break;
+		default:
+		  this.legs = 'ERROR - in physicalGen method';
+			break;
+	};
+
+	switch(this.physical.tail) {
+		case 1:
+		case 2:
+		case 3:
+		  this.tail = 'Short';
+			break;
+		case 4:
+		case 5:
+		case 6:
+		  this.tail = 'Medium';
+			break;
+		case 7:
+		case 8:
+		case 9:
+		  this.tail = 'Long';
+			break;
+		case 10:
+		  this.tail = 'Flag';
+			break;
+		default:
+		  this.tail = 'ERROR - in physicalGen method';
+			break;
+	};
+
+	switch(this.physical.ears) {
+		case 1:
+		case 2:
+		case 3:
+		  this.ears = 'Tiny';
+			break;
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		  this.ears = 'Average';
+			break;
+		case 8:
+		case 9:
+		case 10:
+		  this.ears = 'Large';
+			break;
+		default:
+		  this.ears = 'ERROR - in physicalGen method';
+			break;
+	};
+
+	switch(this.physical.eyes) {
+		case 1:
+		  this.eyes = 'Amber';
+			break;
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		  this.eyes = 'Brown';
+			break;
+		case 7:
+		  this.eyes = 'Heterochromatic';
+			break;
+		case 8:
+		case 9:
+		case 10:
+		  this.eyes = 'Blue';
+			break;
+	};
+
+	switch(this.physical.fur) {
+		case 1:
+		case 2:
+		case 3:
+		  this.fur = 'Long';
+			break;
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		  this.fur = 'Short';
+			break;
+		case 8:
+		case 9:
+		case 10:
+		  this.fur = 'Smooth';
+			break;
+		default:
+		  this.fur = 'ERROR - in physicalGen Method';
+			break;
+	};
 
 	return this;
 }
@@ -512,78 +698,8 @@ Dog.prototype.allowRecessive = function() {
 //rechecks the dog's genetics in case of any genetic changes caused by removeRecessive and allowRecessive
 //simply reruns colorGen and otherGen, and rechecks the string values for tail, ears, and fur
 Dog.prototype.recheckDog = function() {
-	//check tailValue's random number and assigns value to tail
-	switch(this.tailValue) {
-		case 1:
-		case 2:
-		case 3:
-			this.tail = 'Short';
-			break;
-		case 4:
-		case 5:
-		case 6:
-			this.tail = 'Medium';
-			break;
-		case 7:
-		case 8:
-		case 9:
-			this.tail = 'Long';
-			break;
-		case 10:
-			this.tail = 'Flag';
-			break;
-		default:
-			this.tail = 'ERROR';
-			break;
-	}
-
-	//check earsValue's random number and assigns value to ears
-	switch(this.earsValue) {
-		case 1:
-		case 2:
-		case 3:
-			this.ears = 'Tiny';
-			break;
-		case 4:
-		case 5:
-		case 6:
-		case 7:
-			this.ears = 'Average';
-			break;
-		case 8:
-		case 9:
-		case 10:
-			this.ears = 'Large';
-			break;
-		default:
-			this.ears = 'ERROR';
-			break;
-	}
-
-	//check furValue's random number and assigns value to ears
-	switch(this.furValue) {
-		case 1:
-		case 2:
-		case 3:
-			this.fur = 'Long';
-			break;
-		case 4:
-		case 5:
-		case 6:
-		case 7:
-			this.fur = 'Short';
-			break;
-		case 8:
-		case 9:
-		case 10:
-			this.fur = 'Smooth';
-			break;
-		default:
-			this.fur = 'ERROR';
-			break;
-	}
-
-	//rerun the this through colorGen and otherGen to change the string of any changed values
+	//rerun the this through physicalGen, colorGen and otherGen to change the string of any changed values
+	this.physicalGen();
 	this.colorGen();
 	this.otherGen();
 	return this;
@@ -593,9 +709,48 @@ Dog.prototype.recheckDog = function() {
 
 //********************FUNCTIONS********************//
 
+//**********RANDOM**********//
+function randomNum(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 //**********DOG CREATION FUNCTIONS**********//
 function dogGen(dog1, dog2) {
-	
+
+	//generate the first dog using the Dog constructor.
+	var dog = new Dog();
+
+	//loop through all elements in physical (the numerical values of the dog's physical traits) and assign them a value based on the dogs passed in ()
+	for (var key in dog.physical) {
+		dog.physical[key] = physicalGen(dog1, dog2, key);
+	}
+
+}
+
+function rollPhysicalValues(dog1, dog2, key) {
+	var random;
+
+	//sets one to the higher value and two to the lower value
+	if (dog1.physical[key] >= dog2.physical[key]) {
+		var one = dog1.physical[key];
+		var two = dog2.physical[key];
+	} else {
+		var one = dog2.physical[key];
+		var two = dog1.physical[key];
+	}
+
+  //gives the value a 1 in 3 chance of rolling one outside of it's range
+  random = randomNum(0, 2);
+	if (!random && one < 10) {
+		one++;
+	} else {
+		random = randomNum(0, 2);
+		if (!random && two > 1) {
+			two--;
+		}
+	}
+
+  return randomNum(two, one);
 }
 
 console.log('script.js end');
