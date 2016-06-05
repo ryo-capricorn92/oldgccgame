@@ -7,7 +7,7 @@ console.log('script.js start');
 var all = {
 	//set all user info values
 	userInfo: {
-		name: "",
+		name: '',
 		energy: 20,
 		exp: 0,
 		level: 1,
@@ -52,8 +52,6 @@ var all = {
 	//array to keep all owned dogs
 	ownedDogs: []
 }
-
-
 
 //**********OBJECT CONSTRUCTORS**********//
 function Dog() {
@@ -150,8 +148,6 @@ function Dog() {
 	this.image = '';
 }
 
-
-
 //**********METHODS**********//
 
 //***TIME METHODS***//
@@ -186,6 +182,107 @@ Date.prototype.toMidnight = function() {
 Dog.prototype.addDog = function() {
 	return this;
 };
+
+//method used in dogGen - dog generated is a puppy bred from two parents - use their genetics to determin dog's
+Dog.prototype.breedFromDogs = function(dog1, dog2) {
+	//loop through all genes in color genes and assign them per genetics rules from parents (ie, one alele from Parent A, one alele from Parent B)
+	for (var key in this.colorGenes) {
+		if (random01()) {
+			//dog's first alele will be from dog1 and second alele will be from dog2
+			if (random01()) {
+				//dog's first alele will be dog1's first alele
+				this.colorGenes[key].a1 = dog1.colorGenes[key].a1;
+			} else {
+				//dog's first alele will be dog1'a second alele
+				this.colorGenes[key].a1 = dog1.colorGenes[key].a2;
+			}
+
+			if (random01()) {
+				//dog's second alele will be dog2's first alele
+				this.colorGenes[key].a2 = dog2.colorGenes[key].a1;
+			} else {
+				//dog's second alele will be dog2's second alele
+				this.colorGenes[key].a2 = dog2.colorGenes[key].a2;
+			}
+		} else {
+			//dog's first alele will be from dog2 and second alel will be from dog1
+			if (random01()) {
+				//dog's first alele will be dog2's first alele
+				this.colorGenes[key].a1 = dog2.colorGenes[key].a1;
+			} else {
+				//dog's first alele will be dog2's second alele
+				this.colorGenes[key].a1 = dog2.colorGenes[key].a2;
+			}
+
+			if (random01()) {
+				//dog's second alele will be dog1's first alele
+				this.colorGenes[key].a2 = dog1.colorGenes[key].a1;
+			} else {
+				//dog's second alele will be dog1's second alele
+				this.colorGenes[key].a2 = dog1.colorGenes[key].a2;
+			}
+		}
+	}
+
+	//same thing repeated for other genes
+	for (var key in this.otherGenes) {
+		if (random01()) {
+			//dog's first alele will be from dog1 and second alele will be from dog2
+			if (random01()) {
+				//dog's first alele will be dog1's first alele
+				this.otherGenes[key].a1 = dog1.otherGenes[key].a1;
+			} else {
+				//dog's first alele will be dog1'a second alele
+				this.otherGenes[key].a1 = dog1.otherGenes[key].a2;
+			}
+
+			if (random01()) {
+				//dog's second alele will be dog2's first alele
+				this.otherGenes[key].a2 = dog2.otherGenes[key].a1;
+			} else {
+				//dog's second alele will be dog2's second alele
+				this.otherGenes[key].a2 = dog2.otherGenes[key].a2;
+			}
+		} else {
+			//dog's first alele will be from dog2 and second alel will be from dog1
+			if (random01()) {
+				//dog's first alele will be dog2's first alele
+				this.otherGenes[key].a1 = dog2.otherGenes[key].a1;
+			} else {
+				//dog's first alele will be dog2's second alele
+				this.otherGenes[key].a1 = dog2.otherGenes[key].a2;
+			}
+
+			if (random01()) {
+				//dog's second alele will be dog1's first alele
+				this.otherGenes[key].a2 = dog1.otherGenes[key].a1;
+			} else {
+				//dog's second alele will be dog1's second alele
+				this.otherGenes[key].a2 = dog1.otherGenes[key].a2;
+			}
+		}
+	}
+
+	//roll skill values from parent's values
+	//RULES: value is to be rolled between half of the smaller starting value and the largest value
+	//RULES (con't): then add a third of the smaller value to the rolled sum
+	//EXAMPLE: if Parent A has skill of 6 and Parent B has skill of 15, roll between 3 and 15, then add 2
+	//This allows the puppy to have marginally higher or lower skill than the parents
+
+	for (var key in this.skills) {
+		if (dog1.skills[key] > dog2.skills[key]) {
+			var one = dog1.skills[key];
+			var two = dog2.skills[key];
+		} else {
+			var one = dog2.skills[key];
+			var two = dog1.skills[key];
+		}
+
+		this.skills[key] = Math.round(randomNum((two/2), one) + (two/3));
+	}
+
+	return this;
+}
 
 //method to give the dog a string value interpretation of it's color genetics
 Dog.prototype.colorGen = function() {
@@ -611,68 +708,68 @@ Dog.prototype.physicalGen = function() {
 Dog.prototype.removeRecessive = function() {
 	//check for merle and continue retrying until it has at least one dominant alele
 	while (!this.colorGenes.g3.a1 && !this.colorGenes.g3.a2) {
-		this.colorGenes.g3.a1 = Math.round(Math.random());
-		this.colorGenes.g3.a2 = Math.round(Math.random());
+		this.colorGenes.g3.a1 = random01();
+		this.colorGenes.g3.a2 = random01();
 	}
 
 	//check for chocolate and continue retrying until it has at least one dominant alele
 	while (!this.colorGenes.g4.a1 && !this.colorGenes.g4.a2) {
-		this.colorGenes.g4.a1 = Math.round(Math.random());
-		this.colorGenes.g4.a2 = Math.round(Math.random());
+		this.colorGenes.g4.a1 = random01();
+		this.colorGenes.g4.a2 = random01();
 	}
 
 	//check for dilute and continue retrying until it has at least one dominant alele
 	while (!this.colorGenes.g5.a1 && !this.colorGenes.g5.a2) {
-		this.colorGenes.g5.a1 = Math.round(Math.random());
-		this.colorGenes.g5.a2 = Math.round(Math.random());
+		this.colorGenes.g5.a1 = random01();
+		this.colorGenes.g5.a2 = random01();
 	}
 
 	//check for show points and continue retrying until it has at least one dominant alele
 	while (!this.colorGenes.g6.a1 && !this.colorGenes.g6.a2) {
-		this.colorGenes.g6.a1 = Math.round(Math.random());
-		this.colorGenes.g6.a2 = Math.round(Math.random());
+		this.colorGenes.g6.a1 = random01();
+		this.colorGenes.g6.a2 = random01();
 	}
 
 	//check for points masking and continue retrying until it has at least one dominant alele
 	while (!this.colorGenes.g8.a1 && !this.colorGenes.g8.a2) {
-		this.colorGenes.g8.a1 = Math.round(Math.random());
-		this.colorGenes.g8.a2 = Math.round(Math.random());
+		this.colorGenes.g8.a1 = random01();
+		this.colorGenes.g8.a2 = random01();
 	}
 
 	//check for nub tail and continue retrying until it has at least one dominant alele
 	while (!this.otherGenes.g1.a1 && !this.otherGenes.g1.a2) {
-		this.otherGenes.g1.a1 = Math.round(Math.random());
-		this.otherGenes.g1.a2 = Math.round(Math.random());
+		this.otherGenes.g1.a1 = random01();
+		this.otherGenes.g1.a2 = random01();
 	}
 
 	//check for curly tail and continue retrying until it has at least one dominant alele
 	while (!this.otherGenes.g2.a1 && !this.otherGenes.g2.a2) {
-		this.otherGenes.g2.a1 = Math.round(Math.random());
-		this.otherGenes.g2.a2 = Math.round(Math.random());
+		this.otherGenes.g2.a1 = random01();
+		this.otherGenes.g2.a2 = random01();
 	}
 
 	//check for drop ears and continue retrying until it has at least one dominant alele
 	while (!this.otherGenes.g3.a1 && !this.otherGenes.g3.a2) {
-		this.otherGenes.g3.a1 = Math.round(Math.random());
-		this.otherGenes.g3.a2 = Math.round(Math.random());
+		this.otherGenes.g3.a1 = random01();
+		this.otherGenes.g3.a2 = random01();
 	}
 
 	//check for drop coat and continue retrying until it has at least one dominant alele
 	while (!this.otherGenes.g4.a1 && !this.otherGenes.g4.a2) {
-		this.otherGenes.g4.a1 = Math.round(Math.random());
-		this.otherGenes.g4.a2 = Math.round(Math.random());
+		this.otherGenes.g4.a1 = random01();
+		this.otherGenes.g4.a2 = random01();
 	}
 
 	//check for wire coat and continue retrying until it has at least one dominant alele
 	while (!this.otherGenes.g5.a1 && !this.otherGenes.g5.a2) {
-		this.otherGenes.g5.a1 = Math.round(Math.random());
-		this.otherGenes.g5.a2 = Math.round(Math.random());
+		this.otherGenes.g5.a1 = random01();
+		this.otherGenes.g5.a2 = random01();
 	}
 
 	//check for hairless and continue retrying until it has at least one dominant alele
 	while (!this.otherGenes.g6.a1 && !this.otherGenes.g6.a2) {
-		this.otherGenes.g6.a1 = Math.round(Math.random());
-		this.otherGenes.g6.a2 = Math.round(Math.random());
+		this.otherGenes.g6.a1 = random01();
+		this.otherGenes.g6.a2 = random01();
 	}
 
 	//rerun colorGen and otherGen to change the string value of the new genes
@@ -683,14 +780,14 @@ Dog.prototype.removeRecessive = function() {
 
 //allows chocolate and points the chance to show - to be used on first roll dogs
 Dog.prototype.allowRecessive = function() {
-	var random = Math.round(Math.random());
-	this.colorGenes.g4.a1 = random ? Math.round(Math.random()) : 1;
-	random = Math.round(Math.random());
-	this.colorGenes.g4.a2 = random ? Math.round(Math.random()) : 1;
-	random = Math.round(Math.random());
-	this.colorGenes.g6.a1 = random ? Math.round(Math.random()) : 1;
-	random = Math.round(Math.random());
-	this.colorGenes.g6.a2 = random ? Math.round(Math.random()) : 1;
+	var random = random01();
+	this.colorGenes.g4.a1 = random ? random01() : 1;
+	random = random01();
+	this.colorGenes.g4.a2 = random ? random01() : 1;
+	random = random01();
+	this.colorGenes.g6.a1 = random ? random01() : 1;
+	random = random01();
+	this.colorGenes.g6.a2 = random ? random01() : 1;
 	this.recheckDog();
 	return this;
 }
@@ -699,9 +796,7 @@ Dog.prototype.allowRecessive = function() {
 //simply reruns colorGen and otherGen, and rechecks the string values for tail, ears, and fur
 Dog.prototype.recheckDog = function() {
 	//rerun the this through physicalGen, colorGen and otherGen to change the string of any changed values
-	this.physicalGen();
-	this.colorGen();
-	this.otherGen();
+	this.physicalGen().colorGen().otherGen();
 	return this;
 };
 
@@ -714,29 +809,71 @@ function randomNum(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function random01() {
+	return Math.round(Math.random());
+}
+
 //**********DOG CREATION FUNCTIONS**********//
 function dogGen(dog1, dog2) {
 
 	//generate the first dog using the Dog constructor.
 	var dog = new Dog();
 
+	//assign gender and give the assigned gender a string value
+	dog.genderValue = random01();
+	dog.genderGen();
+
 	//loop through all elements in physical (the numerical values of the dog's physical traits) and assign them a value based on the dogs passed in ()
 	for (var key in dog.physical) {
-		dog.physical[key] = physicalGen(dog1, dog2, key);
+		dog.physical[key] = rollPhysicalValues(dog1, dog2, key);
 	}
 
+	if (!dog1 && !dog2) {
+		//loop through all genes and assign them recessive or dominant
+		for (var key in dog.colorGenes) {
+			for (var innerKey in dog.colorGenes[key]) {
+				dog.colorGenes[key][innerKey] = rollGenes();
+			}
+		}
+		for (var key in dog.otherGenes) {
+			for (var innerKey in dog.otherGenes[key]) {
+				dog.otherGenes[key][innerKey] = rollGenes();
+			}
+		}
+
+		//set sable gene to have 50/50 chance
+		dog.colorGenes.g1.a1 = random01();
+		dog.colorGenes.g1.a2 = random01();
+
+		//roll the new dog's skill values - between 1 and 20
+		for (var key in dog.skills) {
+			dog.skills[key] = randomNum(1, 20);
+		}
+	} else {
+		dog.breedFromDogs(dog1, dog2);
+	}
+
+  //run color- and otherGen to get the string values and image values of the genetics
+	dog.colorGen().otherGen();
+
+	return dog;
 }
 
 function rollPhysicalValues(dog1, dog2, key) {
 	var random;
 
 	//sets one to the higher value and two to the lower value
-	if (dog1.physical[key] >= dog2.physical[key]) {
-		var one = dog1.physical[key];
-		var two = dog2.physical[key];
+	if (dog1 && dog2) {
+		if (dog1.physical[key] >= dog2.physical[key]) {
+			var one = dog1.physical[key];
+			var two = dog2.physical[key];
+		} else {
+			var one = dog2.physical[key];
+			var two = dog1.physical[key];
+		}
 	} else {
-		var one = dog2.physical[key];
-		var two = dog1.physical[key];
+		var one = 10;
+		var two = 1;
 	}
 
   //gives the value a 1 in 3 chance of rolling one outside of it's range
@@ -752,5 +889,15 @@ function rollPhysicalValues(dog1, dog2, key) {
 
   return randomNum(two, one);
 }
+
+function rollGenes() {
+	//1 in 4 chance the gene will be recessive
+	var random = randomNum(0, 3);
+	//if gene is 0, return recessive, otherwise return dominant
+	return random ? 1 : 0;
+}
+
+//**********TIME FUNCTIONS**********//
+
 
 console.log('script.js end');
