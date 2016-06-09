@@ -1,0 +1,20 @@
+body {
+  background-color: #3d3d3d;
+}
+
+#container {
+  margin: 0 auto;
+  border: 1px solid black;
+  width: 988px;
+}
+
+#head {
+  background: #3d3d3d url("https://raw.githubusercontent.com/ryo-capricorn92/busryoHackathon/master/imgs/bgs/03.png") no-repeat top center;
+  border: 1px solid white;
+  height: 181px;
+}
+
+#outer {
+  background-color: #dadada;
+  height: 1200px;
+}
