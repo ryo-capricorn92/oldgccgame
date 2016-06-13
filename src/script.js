@@ -900,4 +900,8 @@ function rollGenes() {
 //**********TIME FUNCTIONS**********//
 
 
+
+//**********TAB FUCNTIONS**********//
+
+
 console.log('script.js end');
