@@ -828,7 +828,7 @@ function dogGen(dog1, dog2) {
 		dog.physical[key] = rollPhysicalValues(dog1, dog2, key);
 	}
 
-	if (!dog1 && !dog2) {
+	if (!dog1 || !dog2) {
 		//loop through all genes and assign them recessive or dominant
 		for (var key in dog.colorGenes) {
 			for (var innerKey in dog.colorGenes[key]) {

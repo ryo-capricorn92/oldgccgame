@@ -1,0 +1,12 @@
+{
+  "name": "gccgame",
+  "version": "0.0.1",
+  "description": "The Great Canine Creation Game",
+  "author": "Ryo Wheatley",
+  "dependencies": {
+    "jquery": "^2.2.1",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "bootstrap": "^4.0.0-alpha.2"
+  }
+}
